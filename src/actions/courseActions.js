@@ -19,7 +19,7 @@ export function updateCourseSuccess (course) {
 
 export function loadCourses () {
   return function (dispatch) {
-    dispatch (beginAjaxCall())
+    dispatch (beginAjaxCall());
     // uses thunk which uses promises
     return courseApi.getAllCourses()
       .then (courses => {
@@ -28,12 +28,12 @@ export function loadCourses () {
       .catch (error => {
         throw (error);
       });
-  }
+  };
 }
 
 export function saveCourse (course) {
   return function (dispatch, getState) {
-    dispatch (beginAjaxCall())
+    dispatch (beginAjaxCall());
     return courseApi.saveCourse(course)
       .then (savedCourse => {
         course.id ? dispatch(updateCourseSuccess(savedCourse)) : dispatch(createCourseSuccess(savedCourse));
@@ -42,5 +42,5 @@ export function saveCourse (course) {
         dispatch(ajaxCallError());
         throw (error);
       });
-  }
-};
+  };
+}

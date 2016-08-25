@@ -5,7 +5,8 @@ import * as courseActions from '../../actions/courseActions';
 import CourseForm from './CourseForm';
 import toastr from 'toastr';
 
-class ManageCoursePage extends React.Component {
+// a second export that is not linked to 'connect' which can be used as a named import from test files
+export class ManageCoursePage extends React.Component {
   constructor (props, context) {
     super (props, context);
 
@@ -44,8 +45,26 @@ class ManageCoursePage extends React.Component {
     return this.setState({course: course});
   }
 
+  isValid () {
+    let formIsValid = true;
+    let errors = {};
+
+    if (this.state.course.title.length < 5) {
+      errors.title = 'Title must be at least 5 characters long';
+      formIsValid = false;
+    }
+
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
+
   saveCourse (event) {
     event.preventDefault();
+
+    if (!this.isValid()) {
+      return;
+    }
+
     this.setState({ saving: true });
     // all create actions are already in this.props.actions (from mapDispatchToProps)
     this.props.actions.saveCourse(this.state.course)
@@ -57,7 +76,7 @@ class ManageCoursePage extends React.Component {
       .catch(error => {
         this.setState({ saving: false });
         toastr.error(error);
-      })
+      });
   }
 
   render () {
@@ -79,7 +98,6 @@ ManageCoursePage.propTypes = {
   course: PropTypes.object.isRequired,
   authors: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
-
 };
 
 ManageCoursePage.contextTypes = {
@@ -109,7 +127,7 @@ function mapStateToProps (state, props) {
 
   return {
     course: course,
-    authors: formattedAuthors,
+    authors: formattedAuthors
   };
 }
 

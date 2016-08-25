@@ -16,30 +16,11 @@ class CoursesPage extends React.Component {
 
     this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
 
-    //es6 doesn't handle binding so this needs setting up manually
-    // this.onTitleChange = this.onTitleChange.bind(this);
-    // this.onClickSave = this.onClickSave.bind(this);
   }
 
   redirectToAddCoursePage () {
     browserHistory.push('/course');
   }
-
-  // onTitleChange (event) {
-  //   const course = this.state.course;
-  //   course.title = event.target.value;
-  //   this.setState({ course : course });
-  // }
-
-  // onClickSave () {
-  //   // connect injects a dispatch prop if there is no mapDispatchToProps function defined
-  //   // dispatches a call. reducer intercepts, gets current state, deep clones then returns new state object
-  //   this.props.actions.createCourse(this.state.course);
-  // }
-
-  // courseRow (course, index) {
-  //   return <div key={index}>{course.title}</div>;
-  // }
 
   // normally container components should only
   // call child dumb components
@@ -52,17 +33,15 @@ class CoursesPage extends React.Component {
           value="Add course"
           className="btn btn-primary"
           onClick={this.redirectToAddCoursePage} />
-        <CourseList courses={ courses } />
+        <CourseList courses={courses} />
       </div>
     );
   }
 }
 
-// validation for props
-// CoursesPage.propTypes = {
-//   courses: PropTypes.array.isRequired,
-//   actions: PropTypes.object.isRequired
-// };
+CoursesPage.propTypes = {
+  courses: PropTypes.array
+};
 
 //state.courses is defined in the root reducer
 function mapStateToProps (state, ownProps) {

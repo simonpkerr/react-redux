@@ -9,7 +9,7 @@ export function loadAuthorsSuccess (authors) {
 
 export function loadAuthors () {
   return function (dispatch) {
-    dispatch (beginAjaxCall())
+    dispatch (beginAjaxCall());
     // uses thunk which uses promises
     return AuthorApi.getAllAuthors()
       .then (authors => {
@@ -18,5 +18,5 @@ export function loadAuthors () {
       .catch (error => {
         throw (error);
       });
-  }
+  };
 }

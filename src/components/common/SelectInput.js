@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 
 // by placing prop types in the signature, it can be easily seen what the component requires
 const SelectInput = ({ name, label, onChange, defaultOption, value, error, options }) => {
@@ -8,20 +8,20 @@ const SelectInput = ({ name, label, onChange, defaultOption, value, error, optio
   }
 
   return (
-    <div className={ wrapperClass }>
-      <label htmlFor={ name }>{ label }</label>
+    <div className={wrapperClass}>
+      <label htmlFor={name}>{label}</label>
       <div className="field">
         <select
-          name={ name }
+          name={name}
           className="form-control"
-          value={ value }
-          onChange={ onChange }>
-          <option value="">{ defaultOption }</option>
-          { options.map((option) => {
-            return <option key={ option.value } value={ option.value}>{ option.text }</option>;
+          value={value}
+          onChange={onChange}>
+          <option value="">{defaultOption}</option>
+          {options.map((option) => {
+            return <option key={option.value} value={option.value}>{option.text}</option>;
           })}
         </select>
-        { error && <div className="alert alert-danger">{error}</div> }
+        {error && <div className="alert alert-danger">{error}</div>}
       </div>
     </div>
   );
