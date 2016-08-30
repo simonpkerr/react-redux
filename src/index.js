@@ -1,3 +1,5 @@
+/* eslint-disable import/default */
+
 import 'babel-polyfill';  //used for es6 features that can't be transpiled
 import React from 'react';
 import { render } from 'react-dom';
