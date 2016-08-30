@@ -25,7 +25,7 @@ class CoursesPage extends React.Component {
   // normally container components should only
   // call child dumb components
   render() {
-    const { courses } = this.props;
+    //const { courses } = this.props;
     return (
       <div>
         <h1>Courses</h1>
@@ -33,7 +33,7 @@ class CoursesPage extends React.Component {
           value="Add course"
           className="btn btn-primary"
           onClick={this.redirectToAddCoursePage} />
-        <CourseList courses={courses} />
+        <CourseList courses={this.props.courses} />
       </div>
     );
   }
