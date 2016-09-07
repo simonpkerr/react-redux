@@ -5,7 +5,7 @@ const AuthorList = ({ authors, courses, coursesByAuthor, onDelete }) => {
 
   function mapCoursesToAuthor (author) {
     if (courses.length > 0) {
-      return courses.filter(c => c.authorId == author.id)
+      return courses.filter(c => c.authorId == author.id);
     }
 
     return [];

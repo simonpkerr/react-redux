@@ -16,7 +16,6 @@ export function updateCourseSuccess (course) {
 }
 
 
-
 export function loadCourses () {
   return function (dispatch) {
     dispatch (beginAjaxCall());

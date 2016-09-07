@@ -25,10 +25,10 @@ class AuthorsPage extends React.Component {
 
   coursesByAuthor (author) {
     //const author = event.target.author;
-    return this.props.courses.filter(c => c.authorId == author.id)
+    return this.props.courses.filter(c => c.authorId == author.id);
   }
 
-  deleteAuthor (event) {
+  deleteAuthor (author, event) {
     event.preventDefault();
     /*if (this.coursesByAuthor(author).length > 0) {
       toastr.error('Cannot delete author with associated courses');
