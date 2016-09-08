@@ -12,7 +12,9 @@ class AuthorsPage extends React.Component {
   constructor (props, context) {
     super(props, context);
 
-    this.state = {};
+    this.state = {
+      saving: false
+    };
 
     this.redirectToAddAuthorPage = this.redirectToAddAuthorPage.bind(this);
     this.coursesByAuthor = this.coursesByAuthor.bind(this);
@@ -28,13 +30,24 @@ class AuthorsPage extends React.Component {
     return this.props.courses.filter(c => c.authorId == author.id);
   }
 
-  deleteAuthor (author, event) {
-    event.preventDefault();
-    /*if (this.coursesByAuthor(author).length > 0) {
+  deleteAuthor (author) {
+
+    if (this.coursesByAuthor(author).length > 0) {
       toastr.error('Cannot delete author with associated courses');
     } else {
-      toastr.success('Author deleted');
-    }*/
+      this.setState({ saving: true });
+      this.props.actions.deleteAuthor(author)
+        .then (() => {
+          toastr.success('Author deleted');
+          this.setState({ saving: false });
+        })
+        .catch (error => {
+          this.setState({ saving: false });
+          toastr.error(error);
+        });
+
+
+    }
 
 
   }

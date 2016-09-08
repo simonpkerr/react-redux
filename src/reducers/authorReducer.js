@@ -19,6 +19,11 @@ export default function authorReducer (state = initialState.authors, action) {
         Object.assign({}, action.author)
       ];
 
+    case types.DELETE_AUTHOR_SUCCESS:
+      return [
+        ...state.filter(author => author.id !== action.author.id)
+      ];
+
     default:
       return state;
   }
