@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseList from './CourseList';
 import { browserHistory } from 'react-router';
+import Helmet from 'react-helmet';
 
 class CoursesPage extends React.Component {
   // initialises state
@@ -28,6 +29,7 @@ class CoursesPage extends React.Component {
     //const { courses } = this.props;
     return (
       <div>
+        <Helmet title="Courses" />
         <h1>Courses</h1>
         <input type="submit"
           value="Add course"

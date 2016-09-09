@@ -7,6 +7,7 @@ import CoursesPage from './components/course/CoursesPage';
 import ManageCoursePage from './components/course/ManageCoursePage'; // eslint-disable-line import/no-named-as-default
 import ManageAuthorPage from './components/author/ManageAuthorPage'; // eslint-disable-line import/no-named-as-default
 import AuthorsPage from './components/author/AuthorsPage';
+import NotFound from './components/common/NotFound';
 
 //always load the app component as the base container
 //for all other components.
@@ -19,5 +20,6 @@ export default (
     <Route path="course/:id" component={ManageCoursePage} />
     <Route path="authors" component={AuthorsPage} />
     <Route path="author" component={ManageAuthorPage} />
+    <Route path="*" component={NotFound} />
   </Route>
 );

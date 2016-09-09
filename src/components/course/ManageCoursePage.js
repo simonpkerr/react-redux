@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseForm from './CourseForm';
 import toastr from 'toastr';
+import Helmet from 'react-helmet';
 
 // a second export that is not linked to 'connect' which can be used as a named import from test files
 export class ManageCoursePage extends React.Component {
@@ -81,14 +82,17 @@ export class ManageCoursePage extends React.Component {
 
   render () {
     return (
-      <CourseForm
-        allAuthors={this.props.authors}
-        onChange={this.updateCourseState}
-        errors={this.state.errors}
-        onSave={this.saveCourse}
-        course={this.state.course}
-        saving={this.state.saving}
-      />
+      <div>
+        <Helmet title={this.state.course.title || 'New course'} />
+        <CourseForm
+          allAuthors={this.props.authors}
+          onChange={this.updateCourseState}
+          errors={this.state.errors}
+          onSave={this.saveCourse}
+          course={this.state.course}
+          saving={this.state.saving}
+        />
+      </div>
 
     );
   }

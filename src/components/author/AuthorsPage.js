@@ -6,6 +6,7 @@ import * as courseActions from '../../actions/courseActions';
 import AuthorList from './AuthorList';
 import { browserHistory } from 'react-router';
 import toastr from 'toastr';
+import Helmet from 'react-helmet';
 
 class AuthorsPage extends React.Component {
   // initialises state
@@ -58,6 +59,7 @@ class AuthorsPage extends React.Component {
     //const { authors } = this.props;
     return (
       <div>
+        <Helmet title="Authors" />
         <h1>Authors</h1>
         <input type="submit"
           value="Add author"

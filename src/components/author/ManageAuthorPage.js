@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as authorActions from '../../actions/authorActions';
 import AuthorForm from './AuthorForm';
 import toastr from 'toastr';
+import Helmet from 'react-helmet';
 
 // a second export that is not linked to 'connect' which can be used as a named import from test files
 export class ManageAuthorPage extends React.Component {
@@ -81,14 +82,17 @@ export class ManageAuthorPage extends React.Component {
 
   render () {
     return (
-      <AuthorForm
-        onChange={this.updateAuthorState}
-        errors={this.state.errors}
-        onSave={this.saveAuthor}
-        author={this.state.author}
-        saving={this.state.saving}
-      />
 
+      <div>
+        <Helmet title={ this.state.author.firstName || 'New author' } />
+        <AuthorForm
+            onChange={this.updateAuthorState}
+            errors={this.state.errors}
+            onSave={this.saveAuthor}
+            author={this.state.author}
+            saving={this.state.saving}
+          />
+      </div>
     );
   }
 }
