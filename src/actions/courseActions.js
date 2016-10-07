@@ -15,11 +15,14 @@ export function updateCourseSuccess (course) {
   return { type: types.UPDATE_COURSE_SUCCESS, course };
 }
 
-
+// uses thunk which is used to defer execution of the action dispatch
+// once async operation has finished
 export function loadCourses () {
   return function (dispatch) {
     dispatch (beginAjaxCall());
-    // uses thunk which uses promises
+
+    // call api then use thunk to dispatch the action
+    // if the api is abstracted, the server could also use it
     return courseApi.getAllCourses()
       .then (courses => {
         dispatch (loadCoursesSuccess(courses));
