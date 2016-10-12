@@ -1,7 +1,5 @@
+/* eslint-disable no-console */
 import express from 'express';
-import webpack from 'webpack';
-import path from 'path';
-import config from '../../webpack.config.dev';
 import open from 'open';
 
 import React from 'react';
@@ -15,22 +13,26 @@ import createRoutes from '../routes';
 
 import { Provider } from 'react-redux';
 
-/* eslint-disable no-console */
-
 const port = 3000;
 let server = express();
 let scriptSrcs;
 let styleSrc;
 
+scriptSrcs = [
+    'http://localhost:3001/static/app.js',
+    'http://localhost:3001/static/dev.js',
+    'http://localhost:3001/static/bundle.js'
+];
+// styleSrc = '/styles.css';
+
 process.env.ON_SERVER = true;
 
 
-//extract this out to the webpack.server.js file
-const compiler = webpack(config);
-server.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}));
+// const compiler = webpack(config);
+// server.use(require('webpack-dev-middleware')(compiler, {
+//   noInfo: true,
+//   publicPath: config.output.publicPath
+// }));
 //server.use(require('webpack-hot-middleware')(compiler));
 
 // server.set('views', path.join(__dirname, 'views'));
@@ -55,7 +57,7 @@ server.get('*', (req, res, next) => {
             res.status(404).send('not found');
         } else {
 
-            // let [ getCurrentUrl]
+            // let [getCurrentUrl]
 
             // get the required data from the component that matched the route
             getReduxPromise().then(() => {

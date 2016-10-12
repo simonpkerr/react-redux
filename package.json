@@ -5,8 +5,9 @@
   "author": "Cory House",
   "license": "MIT",
   "scripts": {
-    "start": "npm-run-all --parallel open:src",
-    "open:src": "nodemon src/server",
+    "start": "npm-run-all --parallel webpack open:src",
+    "open:src": "nodemon src/server --exec babel-node",
+    "webpack": "node webpack.server.js",
     "lint": "node_modules/.bin/esw webpack.config.* src",
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --reporter spec src/server/testSetup.js \"src/**/*.spec.js\"",
@@ -74,6 +75,7 @@
     "url-loader": "0.5.7",
     "webpack": "1.13.0",
     "webpack-dev-middleware": "1.6.1",
+    "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "2.10.0"
   },
   "repository": {
