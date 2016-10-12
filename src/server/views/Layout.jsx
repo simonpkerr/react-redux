@@ -1,14 +1,14 @@
 var React = require('react');
 
-class DefaultLayout extends React.Component {
+class Layout extends React.Component {
 
     createAppMarkup() {
-        return { __html: 'the content'};
+        return { __html: this.props.body };
     }
     render() {
         return (
             <html>
-            <head><title></title></head>
+            <head><title>Courses</title></head>
             <body>
                 <div id="app" dangerouslySetInnerHTML={this.createAppMarkup()}></div>
                 <script src="/bundle.js"></script>
@@ -18,4 +18,4 @@ class DefaultLayout extends React.Component {
     }
 }
 
-module.exports = DefaultLayout;
+module.exports = Layout;

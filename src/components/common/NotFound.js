@@ -9,6 +9,6 @@ const NotFound = () => {
       <p>Sorry the page wasn't here</p>
     </div>
   );
-}
+};
 
 export default NotFound;

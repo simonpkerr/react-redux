@@ -84,7 +84,7 @@ export class ManageAuthorPage extends React.Component {
     return (
 
       <div>
-        <Helmet title={ this.state.author.firstName || 'New author' } />
+        <Helmet title={this.state.author.firstName || 'New author'} />
         <AuthorForm
             onChange={this.updateAuthorState}
             errors={this.state.errors}
