@@ -58,8 +58,8 @@ server.get('*', (req, res, next) => {
 
             // let [getCurrentUrl]
 
-            // get the required data from the component that matched the route
-            getReduxPromise().then(() => {
+            // get the required data from all required components (global and page level) that matched the route
+            Promise.all(getReduxPromise()).then(() => {
                 let reduxState = escape(JSON.stringify(store.getState()));
                 let html = ReactDOMServer.renderToString(
                     <Provider store={store}>
@@ -84,13 +84,21 @@ server.get('*', (req, res, next) => {
                 let {query, params} = renderProps;
 
                 // need to check if component is actually wrapped or not, some may not need connect
-                let component = renderProps.components[renderProps.components.length - 1].WrappedComponent;
+                //renderProps contains a list of all rendered components including global and page specific ones
+                let globalComponent = renderProps.components[1].WrappedComponent;
+                let pageComponent = renderProps.components[renderProps.components.length - 1].WrappedComponent;
 
-                let promise = component.fetchData ?
-                    component.fetchData({query, params, store, history}) :
+                let globalPromise = globalComponent.fetchData ?
+                    globalComponent.fetchData({query, params, store, history}) :
                     Promise.resolve();
 
-                return promise;
+                let pagePromise = pageComponent.fetchData ?
+                    pageComponent.fetchData({query, params, store, history}) :
+                    Promise.resolve();
+
+                return [globalPromise, pagePromise];
+
+                // return promise;
             }
         }
     });

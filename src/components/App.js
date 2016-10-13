@@ -2,31 +2,74 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Header from './common/Header';
 import Helmet from 'react-helmet';
+import {bindActionCreators} from 'redux';
+
+import * as courseActions from '../actions/courseActions';
+import * as authorActions from '../actions/authorActions';
 
 class App extends React.Component {
-  render() {
-    return (
-      <div className="container-fluid">
-        <Helmet
-          titleTemplate="%s - Courses by mwa"
-          defaultTitle="Courses by mwa"
-        />
-        <Header loading={this.props.loading} />
-        {this.props.children}
-      </div>
-    );
-  }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            courses: [],
+            authors: []
+        };
+    }
+
+    static fetchData({store, params, history}) {
+        return store.dispatch(courseActions.loadCourses());
+    }
+
+    render() {
+        return (
+            <div className="container-fluid">
+                <Helmet
+                    titleTemplate="%s - Courses by mwa"
+                    defaultTitle="Courses by mwa"
+                />
+                <Header loading={this.props.loading}/>
+                {this.props.children}
+            </div>
+        );
+    }
+
+    componentWillReceiveProps (nextProps) {
+        // if (!this.props.courses.length) {
+            this.setState({
+                courses: nextProps.courses
+            });
+        // }
+    }
+
+    componentDidMount() {
+        console.log('loading courses client side');
+        // if (!this.props.courses.length) {
+            this.props.courseActions.loadCourses();
+            this.props.authorActions.loadAuthors();
+        // }
+
+    }
 }
 
 App.propTypes = {
-  children: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
+    children: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
-function mapStateToProps (state, ownProps) {
-  return {
-    loading: state.ajaxCallsInProgress > 0
-  };
+function mapStateToProps(state, ownProps) {
+    return {
+        loading: state.ajaxCallsInProgress > 0,
+        courses: state.courses,
+        authors: state.authors
+    };
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+    return {
+        courseActions: bindActionCreators(courseActions, dispatch),
+        authorActions: bindActionCreators(authorActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

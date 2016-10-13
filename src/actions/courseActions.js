@@ -1,48 +1,49 @@
 import * as types from './actionTypes';
 // to change this to a real api, simply change the dependency
 import courseApi from '../api/mockCourseApi';
-import { beginAjaxCall, ajaxCallError } from './ajaxStatusActions';
+import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
-export function loadCoursesSuccess (courses) {
-  return { type: types.LOAD_COURSES_SUCCESS, courses };
+export function loadCoursesSuccess(courses) {
+    return {type: types.LOAD_COURSES_SUCCESS, courses};
 }
 
-export function createCourseSuccess (course) {
-  return { type: types.CREATE_COURSE_SUCCESS, course };
+export function createCourseSuccess(course) {
+    return {type: types.CREATE_COURSE_SUCCESS, course};
 }
 
-export function updateCourseSuccess (course) {
-  return { type: types.UPDATE_COURSE_SUCCESS, course };
+export function updateCourseSuccess(course) {
+    return {type: types.UPDATE_COURSE_SUCCESS, course};
 }
 
 // uses thunk which is used to defer execution of the action dispatch
 // once async operation has finished
-export function loadCourses () {
-  return function (dispatch) {
-    dispatch (beginAjaxCall());
+export function loadCourses() {
 
-    // call api then use thunk to dispatch the action
-    // if the api is abstracted, the server could also use it
-    return courseApi.getAllCourses()
-      .then (courses => {
-        dispatch (loadCoursesSuccess(courses));
-      })
-      .catch (error => {
-        throw (error);
-      });
-  };
+    return function (dispatch) {
+        dispatch(beginAjaxCall());
+
+        // call api then use thunk to dispatch the action
+        // if the api is abstracted, the server could also use it
+        return courseApi.getAllCourses()
+            .then(courses => {
+                dispatch(loadCoursesSuccess(courses));
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
 }
 
-export function saveCourse (course) {
-  return function (dispatch, getState) {
-    dispatch (beginAjaxCall());
-    return courseApi.saveCourse(course)
-      .then (savedCourse => {
-        course.id ? dispatch(updateCourseSuccess(savedCourse)) : dispatch(createCourseSuccess(savedCourse));
-      })
-      .catch (error => {
-        dispatch(ajaxCallError());
-        throw (error);
-      });
-  };
+export function saveCourse(course) {
+    return function (dispatch, getState) {
+        dispatch(beginAjaxCall());
+        return courseApi.saveCourse(course)
+            .then(savedCourse => {
+                course.id ? dispatch(updateCourseSuccess(savedCourse)) : dispatch(createCourseSuccess(savedCourse));
+            })
+            .catch(error => {
+                dispatch(ajaxCallError());
+                throw (error);
+            });
+    };
 }

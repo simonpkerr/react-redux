@@ -14,8 +14,8 @@ import createRoutes from './routes/index';
 import Immutable from 'immutable';
 import _ from 'lodash';
 
-import {loadCourses} from './actions/courseActions';
-import {loadAuthors} from './actions/authorActions';
+// import {loadCourses} from './actions/courseActions';
+// import {loadAuthors} from './actions/authorActions';
 
 import './styles/styles.css'; //import css files into the page
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -40,13 +40,13 @@ if (window.__REDUX_STATE__) {
 
 // uses redux state populated from server to get initial state
 const store = configureStore(reduxState);
-store.dispatch(loadCourses());
-store.dispatch(loadAuthors());
+// store.dispatch(loadCourses());
+// store.dispatch(loadAuthors());
 
 //provider hooks up all components with the main store automatically
-ReactDOM.render(
+ReactDOM.render((
     <Provider store={store}>
         { createRoutes(browserHistory) }
-    </Provider>,
-    document.getElementById('app')
-);
+    </Provider>
+    ),
+    document.getElementById('app'));
