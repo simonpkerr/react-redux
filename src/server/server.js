@@ -35,7 +35,7 @@ server.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
 }));
-server.use(require('webpack-hot-middleware')(compiler));
+// server.use(require('webpack-hot-middleware')(compiler));
 
 server.set('views', __dirname + '/views');
 server.engine('jsx', ReactEngine());
@@ -59,7 +59,7 @@ server.get('*', (req, res, next) => {
             // let [getCurrentUrl]
 
             // get the required data from all required components (global and page level) that matched the route
-            Promise.all(getReduxPromise()).then(() => {
+            Promise.all(getReduxPromises()).then(() => {
                 let reduxState = escape(JSON.stringify(store.getState()));
                 let html = ReactDOMServer.renderToString(
                     <Provider store={store}>
@@ -70,7 +70,7 @@ server.get('*', (req, res, next) => {
                 res.render('Layout.jsx', {html, scriptSrcs, reduxState, styleSrc});
 
             });
-            function getReduxPromise() {
+            function getReduxPromises() {
                 /*
                  uses destructured arguments
                  https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
@@ -111,7 +111,6 @@ server.listen(port, function (err) {
     if (err) {
         console.log(err);
     } else {
-        console.log('listening on port ' + port);
         open(`http://localhost:${port}`);
     }
 });

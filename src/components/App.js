@@ -17,7 +17,7 @@ class App extends React.Component {
         };
     }
 
-    static fetchData({store, params, history}) {
+    static fetchData({ store, params, history }) {
         return store.dispatch(courseActions.loadCourses());
     }
 
@@ -34,20 +34,23 @@ class App extends React.Component {
         );
     }
 
-    componentWillReceiveProps (nextProps) {
-        // if (!this.props.courses.length) {
-            this.setState({
-                courses: nextProps.courses
-            });
-        // }
-    }
+    // componentWillReceiveProps (nextProps) {
+    //     // if (!this.props.courses.length) {
+    //         this.setState({
+    //             courses: nextProps.courses
+    //         });
+    //     // }
+    // }
 
     componentDidMount() {
-        console.log('loading courses client side');
-        // if (!this.props.courses.length) {
+
+        if (this.props.courses.length === 0) {
+            console.log('loading courses client side');
             this.props.courseActions.loadCourses();
+        }
+        if (this.props.authors.length === 0) {
             this.props.authorActions.loadAuthors();
-        // }
+        }
 
     }
 }

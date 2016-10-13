@@ -14,9 +14,6 @@ import createRoutes from './routes/index';
 import Immutable from 'immutable';
 import _ from 'lodash';
 
-// import {loadCourses} from './actions/courseActions';
-// import {loadAuthors} from './actions/authorActions';
-
 import './styles/styles.css'; //import css files into the page
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
@@ -31,7 +28,8 @@ if (window.__REDUX_STATE__) {
     try {
         let plain = JSON.parse(unescape(__REDUX_STATE__));
         _.each(plain, (val, key)=> {
-            reduxState[key] = Immutable.fromJS(val);
+            // reduxState[key] = Immutable.fromJS(val);
+            reduxState[key] = val;
         });
     } catch (e) {
         console.log(e);
@@ -40,8 +38,6 @@ if (window.__REDUX_STATE__) {
 
 // uses redux state populated from server to get initial state
 const store = configureStore(reduxState);
-// store.dispatch(loadCourses());
-// store.dispatch(loadAuthors());
 
 //provider hooks up all components with the main store automatically
 ReactDOM.render((
