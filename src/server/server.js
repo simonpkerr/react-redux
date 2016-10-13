@@ -5,38 +5,38 @@ import open from 'open';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 var ReactEngine = require('express-react-engine');
-import { useRouterHistory, RouterContext, match } from 'react-router';
-import { createMemoryHistory, useQueries } from 'history';
+import {useRouterHistory, RouterContext, match} from 'react-router';
+import {createMemoryHistory, useQueries} from 'history';
+
+import webpack from 'webpack';
+var config = require('../../webpack.config.dev');
 
 import configureStore from '../store/configureStore';
 import createRoutes from '../routes';
 
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 
 const port = 3000;
 let server = express();
 let scriptSrcs;
 let styleSrc;
 
-scriptSrcs = [
-    'http://localhost:3001/static/app.js',
-    'http://localhost:3001/static/dev.js',
-    'http://localhost:3001/static/bundle.js'
-];
+// scriptSrcs = [
+//     'http://localhost:3001/static/app.js',
+//     'http://localhost:3001/static/dev.js',
+//     'http://localhost:3001/static/bundle.js'
+// ];
 // styleSrc = '/styles.css';
 
 process.env.ON_SERVER = true;
 
+const compiler = webpack(config);
+server.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+server.use(require('webpack-hot-middleware')(compiler));
 
-// const compiler = webpack(config);
-// server.use(require('webpack-dev-middleware')(compiler, {
-//   noInfo: true,
-//   publicPath: config.output.publicPath
-// }));
-//server.use(require('webpack-hot-middleware')(compiler));
-
-// server.set('views', path.join(__dirname, 'views'));
-// server.set('view engine', 'jsx');
 server.set('views', __dirname + '/views');
 server.engine('jsx', ReactEngine());
 
@@ -47,8 +47,7 @@ server.get('*', (req, res, next) => {
     let location = history.createLocation(req.url);
 
     //from react-router
-    match({ routes, location }, (error, redirectLocation, renderProps) => {
-    //    do other stuff like error checking redirection etc
+    match({routes, location}, (error, redirectLocation, renderProps) => {
         if (redirectLocation) {
             res.redirect(301, redirectLocation.pathname + redirectLocation.search);
         } else if (error) {
@@ -100,12 +99,13 @@ server.get('*', (req, res, next) => {
     // res.sendFile(path.join( __dirname, '../src/index.html'));
 });
 
-server.listen(port, function(err) {
-  if (err) {
-    console.log(err);
-  } else {
-    open(`http://localhost:${port}`);
-  }
+server.listen(port, function (err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('listening on port ' + port);
+        open(`http://localhost:${port}`);
+    }
 });
 
 

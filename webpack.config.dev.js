@@ -6,10 +6,10 @@ var config = {
     debug: true,
     devtool: 'source-map',
     noInfo: false,
-    entry: {
+    entry: [
         //'webpack-hot-middleware/client?reload=true', //note that it reloads the page if hot module reloading fails.
-        app: './src/index'
-    },
+        './src/index'
+    ],
     target: 'web',
     output: {
         path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
@@ -17,6 +17,7 @@ var config = {
         filename: 'bundle.js'
     },
     resolve: {
+        // root: [ path.join(__dirname, 'src')],
         extensions: ['', '.js', '.jsx']
     },
     devServer: {
@@ -39,21 +40,21 @@ var config = {
     }
 };
 
-if (DEBUG) {
-    config.entry.dev = [
-        'webpack-dev-server/client?http://localhost:3001',
-        'webpack/hot/only-dev-server'
-    ];
-    config.plugins = config.plugins.concat([
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'bundle',
-            filename: 'bundle.js'
-        })
-    ]);
-    config.output.publicPath = 'http://localhost:3001/static/';
-
-}
+// if (DEBUG) {
+//     config.entry.dev = [
+//         'webpack-dev-server/client?http://localhost:3001',
+//         'webpack/hot/only-dev-server'
+//     ];
+//     config.plugins = config.plugins.concat([
+//         new webpack.HotModuleReplacementPlugin(),
+//         new webpack.optimize.CommonsChunkPlugin({
+//             name: 'bundle',
+//             filename: 'bundle.js'
+//         })
+//     ]);
+//     config.output.publicPath = 'http://localhost:3001/static/';
+//
+// }
 
 
 module.exports = config;

@@ -13,14 +13,10 @@ class Layout extends React.Component {
             <head><title>Courses</title></head>
             <body>
                 <div id="app" dangerouslySetInnerHTML={this.createAppMarkup()}></div>
-                { this.props.reduxState }
-                {  this.props.scriptSrcs.length }
-                {
-                    this.props.scriptSrcs.forEach(script => {
-                        <p>script is: { script }</p>
-                        {/*<script src={script}></script>*/}
-                    })
-                }
+                <script dangerouslySetInnerHTML={{__html: `window.__REDUX_STATE__ = '${this.props.reduxState}'`}} />
+
+                <script src="/bundle.js"></script>
+
             </body>
             </html>
         );
