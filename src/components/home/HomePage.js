@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 import  { connect } from 'react-redux';
 
+import './home.css';
+
 class HomePage extends React.Component {
   render() {
     return (
-      <div className="jumbotron">
-        <h1>Admin</h1>
+      <div className="header__panel">
+        <h1>Admin for the courses</h1>
         <Link to="about" className="btn btn-primary btn-lg">Learn more</Link>
       </div>
     );

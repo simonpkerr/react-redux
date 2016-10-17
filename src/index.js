@@ -17,6 +17,7 @@ import _ from 'lodash';
 import './styles/styles.css'; //import css files into the page
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
+// import './styles/index.css';
 
 /*
 the server.js gets the store from the server with no initial state.

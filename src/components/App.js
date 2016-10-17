@@ -7,6 +7,8 @@ import {bindActionCreators} from 'redux';
 import * as courseActions from '../actions/courseActions';
 import * as authorActions from '../actions/authorActions';
 
+import styles from '../styles/';
+
 class App extends React.Component {
 
     constructor(props) {
@@ -37,14 +39,6 @@ class App extends React.Component {
             </div>
         );
     }
-
-    // componentWillReceiveProps (nextProps) {
-    //     // if (!this.props.courses.length) {
-    //         this.setState({
-    //             courses: nextProps.courses
-    //         });
-    //     // }
-    // }
 
     componentDidMount() {
 
