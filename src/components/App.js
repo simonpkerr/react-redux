@@ -18,7 +18,11 @@ class App extends React.Component {
     }
 
     static fetchData({ store, params, history }) {
-        return store.dispatch(courseActions.loadCourses());
+        return [
+            store.dispatch(courseActions.loadCourses()),
+            store.dispatch(authorActions.loadAuthors())
+            ];
+
     }
 
     render() {
@@ -49,6 +53,7 @@ class App extends React.Component {
             this.props.courseActions.loadCourses();
         }
         if (this.props.authors.length === 0) {
+            console.log('loading authors client side');
             this.props.authorActions.loadAuthors();
         }
 

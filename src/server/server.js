@@ -96,7 +96,7 @@ server.get('*', (req, res, next) => {
                     pageComponent.fetchData({query, params, store, history}) :
                     Promise.resolve();
 
-                return [globalPromise, pagePromise];
+                return [...globalPromise, pagePromise];
 
                 // return promise;
             }
