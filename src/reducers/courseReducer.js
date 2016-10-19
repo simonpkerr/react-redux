@@ -1,8 +1,7 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
-//uses default es6 default parameters
-export default function courseReducer (state = initialState.courses, action) {
+export default function (state = initialState.courses, action) {
   const sortCourses = (courses) => {
     return courses.sort((a,b) => {
       let aName = a.title.toLowerCase();

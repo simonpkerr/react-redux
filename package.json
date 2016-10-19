@@ -7,15 +7,14 @@
   "scripts": {
     "build": "npm run clean && NODE_ENV=prod webpack",
     "clean": "rm public/bundle.js && rm public/style.css && rm public/vendor.js || true",
-    "dev": "NODE_ENV=dev node src/server/ | NODE_ENV=dev webpack-dev-server --port 5000 --inline --hot",
+    "dev": "NODE_ENV=dev node server/index.js | NODE_ENV=dev webpack-dev-server --port 5000 --inline --hot",
     "test": "NODE_ENV=dev tape src/tests/index.js",
-    "prod": "NODE_ENV=prod node src/server/"
+    "prod": "NODE_ENV=prod node server/index.js"
   },
   "dependencies": {
     "babel-polyfill": "6.8.0",
     "babel-register": "^6.8.0",
     "bootstrap": "3.3.6",
-    "express-react-engine": "^0.6.0",
     "immutable": "^3.8.1",
     "jquery": "2.2.3",
     "lodash": "^4.16.4",
@@ -25,7 +24,7 @@
     "react-redux": "4.4.5",
     "react-router": "^2.8.1",
     "react-router-redux": "4.0.4",
-    "redux": "3.5.2",
+    "redux": "^3.5.2",
     "redux-thunk": "2.0.1",
     "toastr": "2.1.2"
   },
@@ -71,6 +70,7 @@
     "react-router-redux": "^4.0.4",
     "react-styleable": "^2.2.4",
     "redux-immutable-state-invariant": "1.2.3",
+    "redux-logger": "^2.7.0",
     "redux-mock-store": "1.0.2",
     "rimraf": "2.5.2",
     "style-loader": "0.13.1",

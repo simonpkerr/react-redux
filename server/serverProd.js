@@ -4,26 +4,29 @@ import open from 'open';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-// var ReactEngine = require('express-react-engine');
-// import {useRouterHistory, RouterContext, match} from 'react-router';
 import { createMemoryHistory, match, RouterContext } from 'react-router';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux';
+import thunk from 'redux-thunk';
 
 // import {createMemoryHistory, useQueries} from 'history';
-import {useQueries} from 'history';
+// import {useQueries} from 'history';
 
 // import webpack from 'webpack';
 // var config = require('../../webpack.config.dev');
 
-import configureStore from '../store/configureStore';
-import createRoutes from '../routes';
+// import configureStore from '../store/configureStore';
+// import createRoutes from '../routes';
 
+import routes from '../routes';
+import rootReducer from '../reducers';
 import {Provider} from 'react-redux';
 
 const port = 3000;
 
 let app = express();
-app.use('/public', express.static(__dirname + '/public'));
+//set where static assets are going to be served from
+app.use('/public', express.static(__dirname + '../public'));
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -46,6 +49,27 @@ app.use(function (req, res, next) {
 // app.set('views', __dirname + '/views');
 // app.engine('jsx', ReactEngine());
 
+
+/**
+ * need one 'configureStore' for the server that uses memory history
+ * and one for the client that uses 'browserHistory'
+ * 'react-router-redux' synchronizes memory and browser history
+ * @param memoryHistory
+ * @param initialState
+ * @returns {*}
+ */
+function configureStore(memoryHistory, initialState) {
+
+    let store = createStore(
+        rootReducer,
+        initialState,
+        compose(
+            applyMiddleware(thunk, routerMiddleware(memoryHistory))
+        )
+    );
+    return store;
+};
+
 const HTML = ({content, store}) => (
     <html>
     <head>
@@ -64,9 +88,9 @@ app.use(function (req, res) {
     // let history = useRouterHistory(useQueries(createMemoryHistory))();
     const memoryHistory = createMemoryHistory(req.path);
     let store = configureStore(memoryHistory);
-    const history = syncHistoryWithStore(memoryHistory, store)
+    const history = syncHistoryWithStore(memoryHistory, store);
 
-    let routes = createRoutes(history);
+    // let routes = createRoutes(history);
     // let location = history.createLocation(req.url);
 
     //from react-router
@@ -84,6 +108,7 @@ app.use(function (req, res) {
             // get the required data from all required components (global and page level) that matched the route
             Promise.all(getReduxPromises()).then(() => {
                 // let reduxState = escape(JSON.stringify(store.getState()));
+                store = configureStore(memoryHistory, store.getState());
                 let content = ReactDOMServer.renderToString(
                     <Provider store={store}>
                         { <RouterContext {...renderProps } /> }
@@ -112,7 +137,7 @@ app.use(function (req, res) {
 
                 // need to check if component is actually wrapped or not, some may not need connect
                 //renderProps contains a list of all rendered components including global and page specific ones
-                let globalComponent = renderProps.components[1].WrappedComponent;
+                let globalComponent = renderProps.components[0].WrappedComponent;
                 let pageComponent = renderProps.components[renderProps.components.length - 1].WrappedComponent;
 
                 let globalPromise = globalComponent.fetchData ?

@@ -11,10 +11,10 @@ import NotFound from '../components/common/NotFound';
 
 //always load the app component as the base container
 //for all other components.
-export default function (history) {
+// export default function (history) {
 
-    return (
-        <Router history={history}>
+    const routes = (
+        //<Router history={history}>
             <Route path="/" component={App}>
                 <IndexRoute component={HomePage}/>
                 <Route path="about" component={AboutPage}/>
@@ -25,7 +25,9 @@ export default function (history) {
                 <Route path="author" component={ManageAuthorPage}/>
                 <Route path="*" component={NotFound}/>
             </Route>
-        </Router>
+        // </Router>
     );
 
-}
+export default routes;
+
+

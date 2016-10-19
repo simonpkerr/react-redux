@@ -2,7 +2,7 @@ import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
 //uses default es6 default parameters
-export default function authorReducer (state = initialState.authors, action) {
+export default function (state = initialState.authors, action) {
 
   const sortAuthors = (authors) => {
     return authors.sort((a,b) => {

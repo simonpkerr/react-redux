@@ -4,20 +4,24 @@
 import 'babel-polyfill';  //used for es6 features that can't be transpiled
 import React from 'react';
 import ReactDOM from 'react-dom';
-import configureStore from './store/configureStore';
+// import configureStore from './store/configureStore';
+import { createStore, applyMiddleware } from 'redux'
 import {Provider} from 'react-redux';
 //uses pushState for modern browsers to avoid # urls
 import {Router, browserHistory} from 'react-router';
-import routes from './routes/index';
-import createRoutes from './routes/index';
+import { createLogger } from 'redux-logger';
+// import useScroll from 'scroll-behavior/lib/useStandardScroll'
+
+import rootReducer from './reducers';
+import routes from './routes';
+// import createRoutes from './routes/index';
 
 import Immutable from 'immutable';
 import _ from 'lodash';
 
-import './styles/styles.css'; //import css files into the page
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/toastr/build/toastr.min.css';
-// import './styles/index.css';
+// import '../styles/styles'; //import css files into the page
+// import '../../node_modules/bootstrap/dist/css/bootstrap.min';
+// import '../../node_modules/toastr/build/toastr.min';
 
 /*
 the server.js gets the store from the server with no initial state.
@@ -37,13 +41,30 @@ if (window.__REDUX_STATE__) {
     }
 }
 
+const logger = createLogger({
+    predicate: (getState, action) => action.type !== 'FETCHING'
+})
+
+// const reducer = combineReducers({
+//     ...reducers,
+//     routing: routerReducer
+// })
+
+const store = createStore(rootReducer, reduxState, applyMiddleware(thunk, logger))
+const scrollHistory = useScroll(() => browserHistory)()
+const history = syncHistoryWithStore(scrollHistory, store)
+
+
 // uses redux state populated from server to get initial state
-const store = configureStore(reduxState);
+// const store = configureStore(reduxState);
 
 //provider hooks up all components with the main store automatically
 ReactDOM.render((
     <Provider store={store}>
-        { createRoutes(browserHistory) }
+        <Router history={history} routes={routes} />
     </Provider>
     ),
     document.getElementById('app'));
+
+
+//{ createRoutes(browserHistory) }
