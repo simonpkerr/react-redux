@@ -8,7 +8,7 @@ import { createMemoryHistory, match, RouterContext } from 'react-router';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
-
+import path from 'path';
 // import {createMemoryHistory, useQueries} from 'history';
 // import {useQueries} from 'history';
 
@@ -18,15 +18,16 @@ import thunk from 'redux-thunk';
 // import configureStore from '../store/configureStore';
 // import createRoutes from '../routes';
 
-import routes from '../routes';
-import rootReducer from '../reducers';
+import routes from '../src/routes';
+import rootReducer from '../src/reducers';
 import {Provider} from 'react-redux';
 
 const port = 3000;
 
 let app = express();
 //set where static assets are going to be served from
-app.use('/public', express.static(__dirname + '../public'));
+const publicPath = path.join(__dirname, '../public');
+app.use('/public', express.static(publicPath));
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');

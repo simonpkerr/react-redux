@@ -15,4 +15,3 @@ export default function (state = initialState.ajaxCallsInProgress, action) {
   }
 
   return state;
-}

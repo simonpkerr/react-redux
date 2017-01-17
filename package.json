@@ -73,6 +73,7 @@
     "redux-logger": "^2.7.0",
     "redux-mock-store": "1.0.2",
     "rimraf": "2.5.2",
+    "scroll-behavior": "^0.8.2",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "1.13.0",

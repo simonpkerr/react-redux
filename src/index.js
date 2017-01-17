@@ -7,9 +7,10 @@ import ReactDOM from 'react-dom';
 // import configureStore from './store/configureStore';
 import { createStore, applyMiddleware } from 'redux'
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
 //uses pushState for modern browsers to avoid # urls
 import {Router, browserHistory} from 'react-router';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 // import useScroll from 'scroll-behavior/lib/useStandardScroll'
 
 import rootReducer from './reducers';
@@ -41,18 +42,18 @@ if (window.__REDUX_STATE__) {
     }
 }
 
-const logger = createLogger({
-    predicate: (getState, action) => action.type !== 'FETCHING'
-})
+// const logger = createLogger({
+//     predicate: (getState, action) => action.type !== 'FETCHING'
+// })
 
 // const reducer = combineReducers({
 //     ...reducers,
 //     routing: routerReducer
 // })
 
-const store = createStore(rootReducer, reduxState, applyMiddleware(thunk, logger))
-const scrollHistory = useScroll(() => browserHistory)()
-const history = syncHistoryWithStore(scrollHistory, store)
+const store = createStore(rootReducer, reduxState, applyMiddleware(thunk))
+// const scrollHistory = useScroll(() => browserHistory)()
+// const history = syncHistoryWithStore(scrollHistory, store)
 
 
 // uses redux state populated from server to get initial state
@@ -61,7 +62,7 @@ const history = syncHistoryWithStore(scrollHistory, store)
 //provider hooks up all components with the main store automatically
 ReactDOM.render((
     <Provider store={store}>
-        <Router history={history} routes={routes} />
+        <Router history={browserHistory} routes={routes} />
     </Provider>
     ),
     document.getElementById('app'));
